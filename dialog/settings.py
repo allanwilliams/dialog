@@ -10,10 +10,14 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/3.2/ref/settings/
 """
 
+import environ
 from pathlib import Path
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
+ROOT_DIR = (environ.Path(__file__) - 2)
+APPS_DIR = ROOT_DIR.path("dialog_apps")
+print("@@@@@@@@@@@@@@@@@@@@",APPS_DIR)
 
 
 # Quick-start development settings - unsuitable for production
@@ -41,7 +45,7 @@ THIRD_PARTY = [
 ]
 
 LOCAL_APPS = [
-    'core'
+    'dialog_apps.core'
 ]
 
 INSTALLED_APPS = THIRD_PARTY + LOCAL_APPS 
@@ -124,7 +128,15 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.2/howto/static-files/
 
-STATIC_URL = '/static/'
+MEDIA_URL = "/media/"
+STATIC_URL = 'static/'
+#STATIC_ROOT = '/static/'
+STATIC_ROOT = str(APPS_DIR.path("static"))
+# https://docs.djangoproject.com/en/dev/ref/settings/#static-url
+STATIC_URL = "/static/"
+STATICFILES_DIRS = [
+    str(APPS_DIR("staticfiles")),
+]
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
